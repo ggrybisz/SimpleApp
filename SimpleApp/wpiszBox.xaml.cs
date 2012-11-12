@@ -23,6 +23,11 @@ namespace proj
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Method executed when user clicks on the button of this Window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addButton_Click(object sender, RoutedEventArgs e)
         {            
             Close();

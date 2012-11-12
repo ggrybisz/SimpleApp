@@ -16,6 +16,8 @@ namespace proj
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
+    /// This class serves as main application window 
+    /// and point of origin for whole workflow
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -31,15 +33,24 @@ namespace proj
             notifyIcon.Visible = true;
         }
 
+        /// <summary>
+        /// Method executed when user clicks on the button of this Window.
+        /// It adds text fom pop-up window to text box in main window area.
+        /// It also contains logic for showing tray area pop-up message.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// 
         private void openButton_Click(object sender, RoutedEventArgs e)
         {
-            
-             wpiszBox a = new wpiszBox();
-             a.ShowDialog();
-             mainTextBlock.Text += a.addTextBox.Text + "\n";
-             notifyIcon.BalloonTipText = a.addTextBox.Text;
-             
-             notifyIcon.ShowBalloonTip(3); 
+
+            wpiszBox a = new wpiszBox();
+
+            a.ShowDialog();
+            mainTextBlock.Text += a.addTextBox.Text + "\n";
+            notifyIcon.BalloonTipText = a.addTextBox.Text;
+
+            notifyIcon.ShowBalloonTip(3);
         }
     }
 }

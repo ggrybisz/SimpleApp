@@ -16,6 +16,7 @@ namespace proj
 {
     /// <summary>
     /// Interaction logic for textBox.xaml
+    /// This class holds data in main application window
     /// </summary>
     public partial class textBox : UserControl
     {

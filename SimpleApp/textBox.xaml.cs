@@ -22,6 +22,7 @@ namespace proj
         public textBox()
         {
             InitializeComponent();
+            
         }
     }
 }

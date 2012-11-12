@@ -5,5 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid></Grid>
+    <Grid Name="mainGrid">              
+        <Rectangle Height="300" HorizontalAlignment="Left" Name="rectangle1" Stroke="Snow" VerticalAlignment="Top" Width="300" Fill="Snow" OpacityMask="Snow" Grid.RowSpan="2" />
+        <Label Content="Label" Height="84" HorizontalAlignment="Left" Margin="12,12,0,0" Name="labelTekst" VerticalAlignment="Top" Width="276" Grid.RowSpan="2" />
+        <Label Content="Godzina :" Height="28" HorizontalAlignment="Left" Margin="12,225,0,0" Name="label2" VerticalAlignment="Top" Width="83" FontSize="16" FontWeight="Bold" />
+        <Label Content="Label" Height="38" HorizontalAlignment="Left" Margin="12,250,0,0" Name="labelTime" VerticalAlignment="Top" Width="112" />
+    </Grid>
 </UserControl>

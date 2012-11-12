@@ -36,10 +36,28 @@ namespace proj
             
              wpiszBox a = new wpiszBox();
              a.ShowDialog();
-             mainTextBlock.Text += a.addTextBox.Text + "\n";
-             notifyIcon.BalloonTipText = a.addTextBox.Text;
              
-             notifyIcon.ShowBalloonTip(3); 
+             try
+             {
+                 if (a.addTextBox.Text != "" && a.addTextBox.Text != null)
+                 {
+                     mainTextBlock.Text += a.addTextBox.Text + "\n";
+                     notifyIcon.BalloonTipText = a.addTextBox.Text;
+                     notifyIcon.ShowBalloonTip(3);
+                 }
+                 else
+                 {
+                     throw (new Exception("Brak tekstu, weź coś wpisz!"));
+                 }
+             }
+             catch(Exception exp)
+             {
+                 MessageBox.Show(exp.Message);
+             }
+             finally
+             {
+                 //wrazie gdyby cos trzeba bylo dodac
+             }
         }
     }
 }

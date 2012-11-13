@@ -68,5 +68,11 @@ namespace proj
                  //wrazie gdyby cos trzeba bylo dodac
              }
         }
+
+        private void helpButton_Click(object sender, RoutedEventArgs e)
+        {
+            Help helpWindow = new Help();
+            helpWindow.ShowDialog();
+        }
     }
 }

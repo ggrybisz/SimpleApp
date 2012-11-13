@@ -113,8 +113,10 @@ namespace proj
                     new CustomPopupPlacement[] { placement1, placement2 };
             return ttplaces;
         }
-
-
-  
+        private void helpButton_Click(object sender, RoutedEventArgs e)
+        {
+            Help helpWindow = new Help();
+            helpWindow.ShowDialog();
+        }
     }
 }

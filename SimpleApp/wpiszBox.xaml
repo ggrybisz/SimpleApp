@@ -4,6 +4,6 @@
         Title="wpiszBox" Height="300" Width="300">
     <Grid>
         <TextBox Height="23" HorizontalAlignment="Left" Margin="10,10,0,0" Name="addTextBox" VerticalAlignment="Top" Width="120" />
-        <Button Content="Add" Height="23" HorizontalAlignment="Left" Margin="10,74,0,0" Name="addButton" VerticalAlignment="Top" Width="75" Click="addButton_Click" />
+        <Button Content="Send" Height="23" HorizontalAlignment="Left" Margin="10,74,0,0" Name="addButton" VerticalAlignment="Top" Width="75" Click="addButton_Click" />
     </Grid>
 </Window>

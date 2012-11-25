@@ -8,3 +8,6 @@ TestResults
 #doxygen documentation
 doxygen_doc
 Doxyfile
+
+#files
+*.png

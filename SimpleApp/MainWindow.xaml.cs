@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Controls.Primitives;
 using System.Windows.Forms;
+using System.IO;
 
 namespace proj
 {
@@ -26,11 +27,19 @@ namespace proj
         private Popup popup;
         System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon();
         int licznik=0;
+
+        System.Windows.Forms.HelpProvider helpProvider = new System.Windows.Forms.HelpProvider();
+
+        static string helpFile = ".\\help.chm";
+
         public MainWindow()
         {
             InitializeComponent();
             notifyIcon.Text = Name;
+
+            helpProvider.HelpNamespace = "\\help.chm";
             
+
             //notifyIcon.BalloonTipTitle = "title";          
             notifyIcon.Icon = new System.Drawing.Icon("Game.ico");
             notifyIcon.Visible = true;
@@ -80,7 +89,7 @@ namespace proj
                      box.labelTekst.Content = a.addTextBox.Text;
                      box.labelTime.Content = DateTime.Now.ToLocalTime().ToShortTimeString();
                      this.popup.Child = box;///add window to popup as child
-                     mainTextBlock.Text += a.addTextBox.Text + "\n";
+                     mainTextBlock.Text += box.labelTime.Content + ":  " +a.addTextBox.Text + "\n";
                     // notifyIcon.BalloonTipText = a.addTextBox.Text;
                     // notifyIcon.ShowBalloonTip(3);
                      
@@ -115,8 +124,29 @@ namespace proj
         }
         private void helpButton_Click(object sender, RoutedEventArgs e)
         {
-            Help helpWindow = new Help();
-            helpWindow.ShowDialog();
+            MainWindow.showHelp();
+        }
+
+        public static void showHelp()
+        {
+            
+
+            if (File.Exists(helpFile))
+            {
+                System.Windows.Forms.Help.ShowHelp(null, helpFile);
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("No help available");
+            }
+        }
+
+        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.F1)
+            {
+                MainWindow.showHelp();
+            }
         }
     }
 }

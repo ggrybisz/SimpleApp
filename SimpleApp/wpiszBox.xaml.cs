@@ -21,11 +21,33 @@ namespace proj
         public wpiszBox()
         {
             InitializeComponent();
+            addTextBox.Focus();
         }
 
+        /// <summary>
+        /// Method executed when user clicks on the button of this Window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addButton_Click(object sender, RoutedEventArgs e)
         {            
             Close();
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F1)
+            {
+                MainWindow.showHelp();
+            }
+        }
+
+        private void addTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Close();
+            }
         }
     }
 }

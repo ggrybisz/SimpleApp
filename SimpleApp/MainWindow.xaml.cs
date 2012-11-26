@@ -13,22 +13,33 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Controls.Primitives;
 using System.Windows.Forms;
+using System.IO;
 
 namespace proj
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
+    /// This class serves as main application window 
+    /// and point of origin for whole workflow
     /// </summary>
     public partial class MainWindow : Window
     {
         private Popup popup;
         System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon();
         int licznik=0;
+
+        System.Windows.Forms.HelpProvider helpProvider = new System.Windows.Forms.HelpProvider();
+
+        static string helpFile = ".\\help.chm";
+
         public MainWindow()
         {
             InitializeComponent();
             notifyIcon.Text = Name;
+
+            helpProvider.HelpNamespace = "\\help.chm";
             
+
             //notifyIcon.BalloonTipTitle = "title";          
             notifyIcon.Icon = new System.Drawing.Icon("Game.ico");
             notifyIcon.Visible = true;
@@ -40,6 +51,14 @@ namespace proj
             
         }
 
+        /// <summary>
+        /// Method executed when user clicks on the button of this Window.
+        /// It adds text fom pop-up window to text box in main window area.
+        /// It also contains logic for showing tray area pop-up message.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// 
         private void openButton_Click(object sender, RoutedEventArgs e)
         {    
             try
@@ -70,7 +89,7 @@ namespace proj
                      box.labelTekst.Content = a.addTextBox.Text;
                      box.labelTime.Content = DateTime.Now.ToLocalTime().ToShortTimeString();
                      this.popup.Child = box;///add window to popup as child
-                     mainTextBlock.Text += a.addTextBox.Text + "\n";
+                     mainTextBlock.Text += box.labelTime.Content + ":  " +a.addTextBox.Text + "\n";
                     // notifyIcon.BalloonTipText = a.addTextBox.Text;
                     // notifyIcon.ShowBalloonTip(3);
                      
@@ -103,8 +122,31 @@ namespace proj
                     new CustomPopupPlacement[] { placement1, placement2 };
             return ttplaces;
         }
+        private void helpButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.showHelp();
+        }
 
+        public static void showHelp()
+        {
+            
 
-  
+            if (File.Exists(helpFile))
+            {
+                System.Windows.Forms.Help.ShowHelp(null, helpFile);
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("No help available");
+            }
+        }
+
+        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.F1)
+            {
+                MainWindow.showHelp();
+            }
+        }
     }
 }

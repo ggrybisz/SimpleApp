@@ -34,21 +34,33 @@ namespace proj
 
         public MainWindow()
         {
-            InitializeComponent();
-            notifyIcon.Text = Name;
+            if (!Initial())
+            {
+                System.Windows.MessageBox.Show("Błąd incjalizacji");
+                Close();
+            }
+        }
 
-            helpProvider.HelpNamespace = "\\help.chm";
-            
-
-            //notifyIcon.BalloonTipTitle = "title";          
-            notifyIcon.Icon = new System.Drawing.Icon("Game.ico");
-            notifyIcon.Visible = true;
-            ///popup create
-            this.popup = new Popup();
-            this.popup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(placePopup);
-            this.popup.Placement = PlacementMode.Custom;
-
-            
+        private bool Initial()
+        {
+            try
+            {
+                InitializeComponent();
+                notifyIcon.Text = Name;
+                helpProvider.HelpNamespace = "\\help.chm";
+                //notifyIcon.BalloonTipTitle = "title";          
+                notifyIcon.Icon = new System.Drawing.Icon("Game.ico");
+                notifyIcon.Visible = true;
+                ///popup create
+                this.popup = new Popup();
+                this.popup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(placePopup);
+                this.popup.Placement = PlacementMode.Custom;
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -62,8 +74,7 @@ namespace proj
         private void openButton_Click(object sender, RoutedEventArgs e)
         {    
             try
-             {
-                               
+             {                               
                  wpiszBox a = new wpiszBox();
                  a.ShowDialog();
                  popup.IsOpen = false;
@@ -129,8 +140,6 @@ namespace proj
 
         public static void showHelp()
         {
-            
-
             if (File.Exists(helpFile))
             {
                 System.Windows.Forms.Help.ShowHelp(null, helpFile);

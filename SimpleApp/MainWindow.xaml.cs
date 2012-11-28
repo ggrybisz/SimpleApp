@@ -48,7 +48,7 @@ namespace proj
                 InitializeComponent();
                 notifyIcon.Text = Name;
                 helpProvider.HelpNamespace = "\\help.chm";
-                //notifyIcon.BalloonTipTitle = "title";          
+                       
                 notifyIcon.Icon = new System.Drawing.Icon("Game.ico");
                 notifyIcon.Visible = true;
                 ///popup create
@@ -59,6 +59,7 @@ namespace proj
             }
             catch (Exception e)
             {
+                System.Windows.MessageBox.Show(e.Message);
                 return false;
             }
         }
@@ -95,14 +96,11 @@ namespace proj
                          }
                      };
 
-
-
                      box.labelTekst.Content = a.addTextBox.Text;
                      box.labelTime.Content = DateTime.Now.ToLocalTime().ToShortTimeString();
-                     this.popup.Child = box;///add window to popup as child
+                     this.popup.Child = box;
                      mainTextBlock.Text += box.labelTime.Content + ":  " +a.addTextBox.Text + "\n";
-                    // notifyIcon.BalloonTipText = a.addTextBox.Text;
-                    // notifyIcon.ShowBalloonTip(3);
+               
                      
                      this.popup.IsOpen = true;
                      timer.Start();
@@ -123,8 +121,9 @@ namespace proj
         }
         public CustomPopupPlacement[] placePopup(Size popupSize, Size targetSize, Point offset)
         {
+            
             CustomPopupPlacement placement1 =
-               new CustomPopupPlacement(new Point(-1000, 100), PopupPrimaryAxis.Vertical);
+               new CustomPopupPlacement(new Point((System.Windows.SystemParameters.WorkArea.Width - 300), (System.Windows.SystemParameters.WorkArea.Height - 300)), PopupPrimaryAxis.Vertical);
 
             CustomPopupPlacement placement2 =
                 new CustomPopupPlacement(new Point((System.Windows.SystemParameters.WorkArea.Width - 300),(System.Windows.SystemParameters.WorkArea.Height - 300)), PopupPrimaryAxis.Horizontal);
@@ -140,14 +139,22 @@ namespace proj
 
         public static void showHelp()
         {
-            if (File.Exists(helpFile))
+            try
             {
-                System.Windows.Forms.Help.ShowHelp(null, helpFile);
+                if (File.Exists(helpFile))
+                {
+                    System.Windows.Forms.Help.ShowHelp(null, helpFile);
+                }
+                else
+                {
+                    throw new Exception("No help available");
+                }
             }
-            else
+            catch
             {
                 System.Windows.MessageBox.Show("No help available");
             }
+
         }
 
         private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -156,6 +163,11 @@ namespace proj
             {
                 MainWindow.showHelp();
             }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            notifyIcon.Dispose();
         }
     }
 }

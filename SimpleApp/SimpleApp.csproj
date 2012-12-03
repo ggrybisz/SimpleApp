@@ -86,6 +86,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="RegEdit.cs" />
     <Compile Include="textBox.xaml.cs">
       <DependentUpon>textBox.xaml</DependentUpon>
     </Compile>

@@ -46,6 +46,8 @@ namespace proj
             try
             {
                 InitializeComponent();
+                RegEdit rejestr = new RegEdit();
+               
                 notifyIcon.Text = Name;
                 helpProvider.HelpNamespace = "\\help.chm";
                        
@@ -55,12 +57,25 @@ namespace proj
                 this.popup = new Popup();
                 this.popup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(placePopup);
                 this.popup.Placement = PlacementMode.Custom;
+                TimeLess(rejestr.TimeCheck());
                 return true;
             }
             catch (Exception e)
             {
                 System.Windows.MessageBox.Show(e.Message);
                 return false;
+            }
+        }
+
+        private void TimeLess(int t)
+        {
+            if (t < 30)
+            {
+                System.Windows.MessageBox.Show("Wersja o ograniczonej ilości wejść.\nZarejestruj się aby móc korzystać w pełni.", "Pozostało: "+(30 - t).ToString());
+            }
+            else
+            {
+                throw(new Exception("trial expired"));
             }
         }
 

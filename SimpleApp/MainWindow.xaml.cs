@@ -32,6 +32,14 @@ namespace proj
 
         static string helpFile = ".\\help.chm";
 
+        public string IconUrl
+        {
+            get 
+            {
+                return System.IO.Path.GetFullPath(".\\Game.ico");
+            }
+        }
+
         public MainWindow()
         {
             if (!Initial())
@@ -39,6 +47,7 @@ namespace proj
                 System.Windows.MessageBox.Show("Błąd incjalizacji");
                 Close();
             }
+            System.Windows.MessageBox.Show(this.IconUrl);
         }
 
         public bool Initial()

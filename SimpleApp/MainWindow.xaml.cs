@@ -41,7 +41,7 @@ namespace proj
             }
         }
 
-        private bool Initial()
+        public bool Initial()
         {
             try
             {
@@ -67,7 +67,7 @@ namespace proj
             }
         }
 
-        private void TimeLess(int t)
+        public static void TimeLess(int t)
         {
             if (t < 30)
             {

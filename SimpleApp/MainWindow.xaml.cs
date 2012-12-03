@@ -34,21 +34,49 @@ namespace proj
 
         public MainWindow()
         {
-            InitializeComponent();
-            notifyIcon.Text = Name;
+            if (!Initial())
+            {
+                System.Windows.MessageBox.Show("Błąd incjalizacji");
+                Close();
+            }
+        }
 
-            helpProvider.HelpNamespace = "\\help.chm";
-            
+        public bool Initial()
+        {
+            try
+            {
+                InitializeComponent();
+                RegEdit rejestr = new RegEdit();
+               
+                notifyIcon.Text = Name;
+                helpProvider.HelpNamespace = "\\help.chm";
+                       
+                notifyIcon.Icon = new System.Drawing.Icon("Game.ico");
+                notifyIcon.Visible = true;
+                ///popup create
+                this.popup = new Popup();
+                this.popup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(placePopup);
+                this.popup.Placement = PlacementMode.Custom;
+                TimeLess(rejestr.TimeCheck());
+                return true;
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show(e.Message);
+                return false;
+            }
+        }
 
-            //notifyIcon.BalloonTipTitle = "title";          
-            notifyIcon.Icon = new System.Drawing.Icon("Game.ico");
-            notifyIcon.Visible = true;
-            ///popup create
-            this.popup = new Popup();
-            this.popup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(placePopup);
-            this.popup.Placement = PlacementMode.Custom;
-
-            
+        public static void TimeLess(int t)
+        {
+            if (t < 30)
+            {
+                System.Windows.MessageBox.Show("Wersja o ograniczonej ilości wejść.\nZarejestruj się aby móc korzystać w pełni.", "Pozostało: "+(30 - t).ToString());
+            }
+            else
+            {
+                throw(new Exception("trial expired"));
+            }
         }
 
         /// <summary>
@@ -62,8 +90,7 @@ namespace proj
         private void openButton_Click(object sender, RoutedEventArgs e)
         {    
             try
-             {
-                               
+             {                               
                  wpiszBox a = new wpiszBox();
                  a.ShowDialog();
                  popup.IsOpen = false;
@@ -84,14 +111,11 @@ namespace proj
                          }
                      };
 
-
-
                      box.labelTekst.Content = a.addTextBox.Text;
                      box.labelTime.Content = DateTime.Now.ToLocalTime().ToShortTimeString();
-                     this.popup.Child = box;///add window to popup as child
+                     this.popup.Child = box;
                      mainTextBlock.Text += box.labelTime.Content + ":  " +a.addTextBox.Text + "\n";
-                    // notifyIcon.BalloonTipText = a.addTextBox.Text;
-                    // notifyIcon.ShowBalloonTip(3);
+               
                      
                      this.popup.IsOpen = true;
                      timer.Start();
@@ -112,8 +136,9 @@ namespace proj
         }
         public CustomPopupPlacement[] placePopup(Size popupSize, Size targetSize, Point offset)
         {
+            
             CustomPopupPlacement placement1 =
-               new CustomPopupPlacement(new Point(-1000, 100), PopupPrimaryAxis.Vertical);
+               new CustomPopupPlacement(new Point((System.Windows.SystemParameters.WorkArea.Width - 300), (System.Windows.SystemParameters.WorkArea.Height - 300)), PopupPrimaryAxis.Vertical);
 
             CustomPopupPlacement placement2 =
                 new CustomPopupPlacement(new Point((System.Windows.SystemParameters.WorkArea.Width - 300),(System.Windows.SystemParameters.WorkArea.Height - 300)), PopupPrimaryAxis.Horizontal);
@@ -129,16 +154,22 @@ namespace proj
 
         public static void showHelp()
         {
-            
-
-            if (File.Exists(helpFile))
+            try
             {
-                System.Windows.Forms.Help.ShowHelp(null, helpFile);
+                if (File.Exists(helpFile))
+                {
+                    System.Windows.Forms.Help.ShowHelp(null, helpFile);
+                }
+                else
+                {
+                    throw new Exception("No help available");
+                }
             }
-            else
+            catch
             {
                 System.Windows.MessageBox.Show("No help available");
             }
+
         }
 
         private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -147,6 +178,11 @@ namespace proj
             {
                 MainWindow.showHelp();
             }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            notifyIcon.Dispose();
         }
     }
 }
